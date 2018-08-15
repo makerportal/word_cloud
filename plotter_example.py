@@ -1,7 +1,6 @@
 import random
 import matplotlib
 import matplotlib.pyplot as plt
-from gifly import gif_maker
 import numpy as np
 
 # function for live-plotting
