@@ -30,55 +30,79 @@ fig_size = fig.get_dpi()*fig.get_size_inches()
 cmap = matplotlib.cm.get_cmap('tab20c')
 
 # random word vector
-lorem_ipsum = """Maecenas vitae diam facilisis, facilisis ex in,
-tincidunt sem. Sed ornare bibendum dolor eu consectetur. In accumsan
-viverra mauris. In mi mauris, scelerisque feugiat maximus blandit,
-mattis vel turpis. Interdum et malesuada fames ac ante ipsum primis
-in faucibus. Etiam aliquet justo a justo egestas euismod. Suspendisse
-pretium tincidunt nibh in viverra. Nullam venenatis augue nibh.
-Sed magna massa, ornare ac tincidunt id, elementum eget justo.
-Suspendisse congue lectus ipsum, vitae maximus ipsum bibendum mattis.
-Praesent dapibus dui eu nulla consectetur malesuada. Praesent
-pellentesque dui id nibh vulputate, vitae eleifend nibh scelerisque.
-Aenean mattis, lacus eleifend mattis venenatis, nisl nulla tempus diam,
-sit amet maximus enim metus a lectus. Cras sit amet arcu ultricies,
-semper tortor porta, faucibus nisl. Phasellus ac lectus luctus, suscipit
-purus in, sollicitudin est. Phasellus venenatis diam non dui porta aliquam.
-Vivamus vestibulum urna vitae erat placerat, id bibendum massa sagittis.
-Aenean gravida tincidunt risus imperdiet congue. Fusce blandit purus
-laoreet pellentesque interdum. Aliquam urna sem, pellentesque quis diam
-a, pellentesque mattis velit. Donec aliquam gravida convallis. Sed tempus,
-orci sit amet egestas scelerisque, lectus lectus tristique tellus, nec
-laoreet nulla diam eget nisl. Aenean eu consequat dui. Cras ac eros
-hendrerit, viverra nibh sit amet, finibus lacus."""
+lorem_ipsum = """Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elit
+ut aliquam purus sit amet luctus venenatis lectus. Tempor orci eu lobortis
+elementum nibh tellus molestie nunc non. Sed arcu non odio euismod lacinia
+at quis risus sed. Dapibus ultrices in iaculis nunc sed augue. Quis commodo
+odio aenean sed adipiscing diam donec adipiscing. Hac habitasse platea dictumst
+vestibulum rhoncus est pellentesque. Posuere lorem ipsum dolor sit amet. Urna
+id volutpat lacus laoreet. Tempor orci eu lobortis elementum nibh tellus
+molestie nunc non. Vitae tempus quam pellentesque nec nam aliquam sem et
+tortor. Elit pellentesque habitant morbi tristique senectus. Fermentum iaculis
+eu non diam phasellus vestibulum. Est ullamcorper eget nulla facilisi etiam
+dignissim diam quis enim. Platea dictumst vestibulum rhoncus est pellentesque
+elit ullamcorper dignissim. Rhoncus urna neque viverra justo nec ultrices dui
+sapien. Amet mattis vulputate enim nulla aliquet porttitor lacus luctus.
+Ut enim blandit volutpat maecenas volutpat blandit aliquam. Integer feugiat
+scelerisque varius morbi enim nunc faucibus a. Elementum integer enim neque
+volutpat ac tincidunt. Vestibulum mattis ullamcorper velit sed ullamcorper
+morbi. Donec enim diam vulputate ut pharetra. Non odio euismod lacinia at quis.
+Congue quisque egestas diam in arcu cursus. Sit amet nulla facilisi morbi
+tempus iaculis. At erat pellentesque adipiscing commodo elit at imperdiet.
+Id aliquet lectus proin nibh nisl condimentum id. Ut tristique et egestas
+quis ipsum suspendisse ultrices. Egestas erat imperdiet sed euismod. Donec
+enim diam vulputate ut pharetra sit amet. Commodo viverra maecenas accumsan
+lacus vel facilisis. Fringilla phasellus faucibus scelerisque eleifend donec
+pretium vulputate sapien. Convallis a cras semper auctor neque vitae tempus
+quam pellentesque. Sit amet mattis vulputate enim nulla aliquet. Proin nibh
+nisl condimentum id. Pharetra et ultrices neque ornare aenean euismod.
+Iaculis at erat pellentesque adipiscing. Convallis convallis tellus id
+interdum velit laoreet id donec. Mattis vulputate enim nulla aliquet porttitor
+lacus luctus. Diam maecenas sed enim ut. Nulla pellentesque dignissim enim
+sit amet venenatis. Enim diam vulputate ut pharetra. Tincidunt dui ut ornare
+lectus sit. Egestas integer eget aliquet nibh praesent tristique. Tellus id
+interdum velit laoreet id donec ultrices tincidunt. Feugiat pretium nibh ipsum
+consequat nisl vel pretium lectus. Arcu non sodales neque sodales ut. Eu feugiat
+pretium nibh ipsum consequat. Elementum pulvinar etiam non quam lacus suspendisse
+faucibus interdum posuere. """
 
 # splitting word based on spaces
-words_for_cloud = (lorem_ipsum.strip(',')).split(' ')
+words_for_cloud = (lorem_ipsum.strip('.')).split(' ')
 # loop through words
 for ii in range(0,len(words_for_cloud)):
     annot_text = words_for_cloud[ii]
     # find the size of the word in pixels
     annot_x_size = len(words_for_cloud[ii])*font_pixel_density
     # randomize the location of the word
-    zoom_ratio = 0.95
-    x_loc = random.uniform(0.0+zoom_ratio,1.0-zoom_ratio)*(fig_size[0]-annot_x_size)
-    y_loc = random.uniform(0.0+zoom_ratio,1.0-zoom_ratio)*(fig_size[1]-font_pixel_density)
+    size_weight_x = ((ii)/len(words_for_cloud))*0.8
+    size_weight_y = ((ii)/len(words_for_cloud))*0.8
+    spiral_speed = 0.1
+    x_loc = (fig_size[0]/2)+(random.choice([random.uniform(-size_weight_x-spiral_speed,0),random.uniform(0,size_weight_x+spiral_speed)])*(fig_size[0]/2))
+    y_loc = (fig_size[1]/2)+(random.choice([random.uniform(-size_weight_y-spiral_speed,0),random.uniform(0,size_weight_y+spiral_speed)])*(fig_size[1]/2))
 
     # randomize the color,rotation angle, and size of the word text
     color =  matplotlib.cm.colors.to_hex(cmap(np.random.rand(1))[0])
-    rotation = random.uniform(-1, 1)*30
-    size_var = random.uniform(0.4,1)*font_pixel_density
-
+##    rotation = random.uniform(-1, 1)*30
+    rotation = random.choice([-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])*90
+    size_var = (random.uniform(0.4,1)*font_pixel_density)
+    
     # here is the loop for checking whether the new annotation interferes with others - if it does
     # we remove the old text
     prev_children = ax.get_children()
     ax,annot1 = live_plotter(ax,annot_text,x_loc,y_loc,color,size_var,rotation)
-    for ii in prev_children:        
-        try:
+    for kk in prev_children:
+        if isinstance(kk, matplotlib.text.Annotation):            
+            kk_extents = kk.get_window_extent().extents
             jj = (annot1.get_window_extent()).extents
 
-            if jj[2]-ii.get_window_extent().extents[0]>=0 and ii.get_window_extent().extents[2]-jj[0]>=0 and\
-               jj[3]-ii.get_window_extent().extents[1]>=0 and ii.get_window_extent().extents[3]-jj[1]>=0:
-                ii.remove()                
-        except:
-            pass
+            if kk_extents[2]-jj[0]>0 and jj[2]-kk_extents[0]>0 and kk_extents[3]-jj[1]>0 and\
+                  jj[3]-kk_extents[1]>0:
+                annot1.remove()
+                break
+            elif jj[2]>fig_size[0]:
+                annot1.set_position((fig_size[0]-jj[2],jj[3]))
+            elif jj[3]>fig_size[1]:
+                annot1.set_position((jj[2],fig_size[1]-jj[3]))
+
+plt.savefig('word_cloud_spiral.png',facecolor=fig.get_facecolor(), edgecolor='none',dpi=95)
